@@ -1,0 +1,110 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+        {% if listing.owner == user %}
+            <h2> {{ listing.item }}: This is your listing {{ user }}</h2>
+            <form action="{% url 'close_listing' listing.id %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                <h3>Close Auction</h3>
+                <input type="hidden" value="False">
+                <input class="btn btn-primary" type="submit" value="Close Auction"></button>
+                </div>
+            </form>
+        {% else %}
+            <h2> {{listing.item}} </h2>
+        {% endif %}
+          
+
+        {% if listing.image_url %}
+            <img class="item_image" src="{{listing.image_url}}" height="360">
+        {% else %}
+            <h4>No Picture given.</h4>
+        {% endif %}
+            
+        <div class="start_amount_listing">
+            <div class="starting">Starting Bid = $ {{listing.starting_bid}}</div>
+        </div>
+        
+        <div class="watchlist_listing">
+            {% if watch_found == True %}
+                {% for w_item in u_watchlist %}
+                    {% if w_item.items.item == listing.item and watch_found == True%}
+                        <h4>Watching Item</h4>
+                        <form class="remove_from_watchlist" action="{% url 'watch_remove' listing.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="watch_delete"><h3>Remove From Watchlist</h3></label>
+                                <input class="btn btn-primary" name="watch_delete" type="submit" value="Remove From Watchlist">
+                            </div>
+                        </form>
+                    {% endif %}
+
+                {% endfor %}
+            {% else %}
+                <form class="add_to_watchlist" action="{% url 'watch_add' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="watch_sub"><h3>Add To Watchlist: </h3></label>
+                        <input class="btn btn-primary" name="watch_sub" type="submit" value="Add To Watchlist">
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+
+        {% if listing.active %}    
+            <div class="bid_on_view_listing">
+                <div class="current_bid_listing">
+                    <h4 class="current_bid">Current Bid: $ {{ listing.current_bid }}</h4>
+                </div>
+        
+                <div class="making_bid">
+                    <form class="bidding" action="{% url 'make_bid' listing.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="bid_amount">Bid Amount in US $</label>
+                            <input type="float" id="bid_amount" name="bid_amount" value="0.00" min=">{{ listing.starting_bid }}" >
+                            <input class="btn btn-primary" type="submit" value="Submit Bid">
+                        </div>
+                    </form>
+                    <div>
+                    <p class="description_listing">
+                        {{listing.description}}
+                    </p>
+                </div>
+
+                <div class="comment_listing">
+                    <h4>Comments</h4>
+                    <div class="comments_list">
+                        {% for c in comments %}
+                            <h5 class="comment_title">From: {{ c.user }}</h5>
+                            <div class="comments_on_view">
+                                <p>{{ c.comment }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        <form class="comment_form" name="comment_form" action="{% url 'add_comment' listing.id %}" method="POST" required>
+                            {% csrf_token %}
+                            <label class="comment_label" for="comment_box">Add Comment Here</label><br>
+                            <textarea id="comment_box" name="comment_box" rows=5 cols="60" placeholder="add comment here...">
+                            </textarea>
+                            <input class="btn btn-primary" type="submit" value="Add Commmit">
+                        </form>
+                        
+                    </div>
+                </div>        
+            </div>
+        {% else %}
+            <div>
+                <h4>This Auction is Closed</h4>
+                <h3>Purchase price was: $ {{listing.current_bid}}</h3>
+            </div>
+        {% endif %}
+
+{% else %}
+    <h2>You must be logged in to view</h2>
+{% endif %}
+{% endblock %}

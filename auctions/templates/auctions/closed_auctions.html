@@ -1,0 +1,34 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if user.is_authenticated %}
+    <h3>Closed Auctions</h3>
+    {% for listing in listings %}
+        {% if listing.active == False and listing.winner %}
+        <div class="Listings">
+            {% if listing.winner == user %}
+                <h3><a href="{% url 'view_listing' listing.id %}">{{ listing.item }}</h3></a>
+                <h4 class="announce_winner" >{{ user.username }} You are the winner</h4>
+                    {% if listing.image_url != null %}
+                        <img class="item_image" src="{{listing.image_url}}" height="120">
+                    {% else %}
+                        <p>No Picture given.</p>
+                    {% endif %}
+                <h4>Current Bid: $ {{listing.current_bid}}</h4>
+
+            {% else %}    
+                <h3><a href="{% url 'view_listing' listing.id %}">{{ listing.item }}</h3></a>
+                    <h5>The winner was: {{ listing.winner }}</h5>
+                    {% if listing.image_url != null %}
+                        <img class="item_image" src="{{listing.image_url}}" height="120">
+                    {% else %}
+                        <p>No Picture given.</p>
+                    {% endif %}
+                    <h4>Current Bid: $ {{listing.current_bid}}</h4>
+            
+            {% endif %}    
+        {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}   
+{% endblock %}

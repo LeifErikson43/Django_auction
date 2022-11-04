@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if user.is_authenticated  %}
+    <h2>Create Listing Page</h2>
+    <p class="ceateListing">{{ user }} please fill out information click 'Create Listing.'</p>
+
+    <form class="CreateListingForm" action="{% url 'create_listing' %}" method="post">
+        {% csrf_token %}
+        <table class="listing_table">
+        {{ form.as_table }}
+        </table>
+        <input class="btn btn-primary" type="submit" value="Create Listing">
+    </form>
+{% else %}
+    <h2>You must be logged in to creat a listing</h2> 
+{% endif %}   
+{% endblock %}

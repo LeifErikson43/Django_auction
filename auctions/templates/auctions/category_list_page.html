@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if user.is_authenticated %}
+    <h2>{{ category }}</h2>
+    {% for listing in listings %}
+        {% if listing.active %}
+            <a href="{% url 'view_listing' listing.id %}"><h3>{{ listing.item}}</h3></a>
+             {% if listing.image_url != null %}
+                <img class="item_image" src="{{listing.image_url}}" height="120">
+            {% else %}
+                <p>No Picture given.</p>
+            {% endif %}
+        <h4>Current Bid: $ {{listing.current_bid}}</h4>
+        {% endif %} 
+    {% endfor %}
+{% endif %}
+{% endblock %}

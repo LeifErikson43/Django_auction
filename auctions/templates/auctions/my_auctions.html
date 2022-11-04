@@ -1,0 +1,10 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if user.is_authenticated %}
+    <h3>Auctions You Won</h3>
+        {% for listing in listings %}
+            <a class="Items won" href="{% url 'view_listing' listing.id %}"><h4>{{ listing.item }}</h4></a>
+        {% endfor %}
+{% endif %}
+{% endblock %}

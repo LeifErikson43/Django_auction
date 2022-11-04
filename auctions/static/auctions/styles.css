@@ -1,0 +1,47 @@
+body {
+    padding: 40px;
+}
+form {
+    align-self: center;
+}
+.Listings {
+    border: 1px solid  black;
+    padding: 1rem;
+    margin: 1rem;
+}
+h1 {
+    color: rgb(49, 82, 49);
+}
+.listing_table {
+    border: 1px;
+}
+.item_image {
+    margin: 4px;
+}
+.description_listing {
+    font-size: 1.5em;
+}
+
+.bid_amount_listing {
+    color: rgb(151, 59, 29);
+    font-size: 2em;
+}
+#comment {
+    border: 1px solid black;
+
+}
+#web_title_block {
+    background-color: rgb(219, 216, 216);
+}
+.welcome {
+    margin-left: 10px;
+}
+.active_title {
+    text-align: center;
+}
+.comment_title {
+    margin-left: 15px;
+}
+.announce_winner {
+    color: rgb(184, 91, 37);
+}

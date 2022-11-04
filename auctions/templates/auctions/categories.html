@@ -1,0 +1,11 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Categories:</h2><h5>These links will only show active auction items.</h5>
+    {% for category in category_list %}
+        <ul>
+            <a class="catagory_list" href="{% url 'category_list_page' category %}" ><li>{{ category }}</li></a>
+        </ul>
+    {% endfor %}
+    
+{% endblock %}
